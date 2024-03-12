@@ -73,6 +73,61 @@ const TSLanguage *tree_sitter_rust();
 const TSLanguage *tree_sitter_typescript();
 ```
 
+Translating the parsing and tree inspection operations from the example to
+use the C++ wrappers then yields a `demo.cpp` like:
+
+```cpp
+#include <cassert>
+#include <cstdio>
+#include <memory>
+#include <string>
+
+#include <cpp-tree-sitter.h>
+
+
+extern "C" {
+TSLanguage* tree_sitter_json();
+}
+
+
+int main() {
+  // Create a language and parser.
+  ts::Language language = tree_sitter_json();
+  ts::Parser parser{language};
+
+  // Parse the provided string into a syntax tree.
+  std::string sourcecode = "[1, null]";
+  ts::Tree tree = parser.parseString(sourcecode);
+
+  // Get the root node of the syntax tree. 
+  ts::Node root = tree.getRootNode();
+
+  // Get some child nodes.
+  ts::Node array = root.getNamedChild(0);
+  ts::Node number = array.getNamedChild(0);
+
+  // Check that the nodes have the expected types.
+  assert(root.getType() == "document");
+  assert(array.getType() == "array");
+  assert(number.getType() == "number");
+
+  // Check that the nodes have the expected child counts.
+  assert(root.getNumChildren() == 1);
+  assert(array.getNumChildren() == 5);
+  assert(array.getNumNamedChildren() == 2);
+  assert(number.getNumChildren() == 0);
+
+  // Print the syntax tree as an S-expression.
+  auto treestring = root.getSExpr();
+  printf("Syntax tree: %s\n", treestring.get());
+
+  return 0;
+}
+```
+
+In particular, some of the underlying APIs now use method calls for
+easier discoverability, and resource cleaning is automatic.
+
 ## License
 
 This is nothing more than a simple CMake script and some supporting files.
