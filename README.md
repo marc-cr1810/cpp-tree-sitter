@@ -22,12 +22,12 @@ This project includes Tree-sitter and sub-projects as Git Submodules, so make
 sure you add the submodules when you checkout the source.
 
 ```bash
-$ git clone --recurse-submodules https://github.com/Symbitic/tree-sitter-cmake
-$ mkdir tree-sitter-cmake/build
-$ cd tree-sitter-cmake/build
-$ cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
-$ cmake --build .
-$ sudo cmake --build . --target install
+git clone --recurse-submodules https://github.com/Symbitic/tree-sitter-cmake
+mkdir tree-sitter-cmake/build
+cd tree-sitter-cmake/build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+sudo cmake --build . --target install
 ```
 
 The above commands should check out the git submodules this project pulls in.
