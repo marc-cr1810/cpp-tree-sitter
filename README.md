@@ -23,8 +23,8 @@ sure you add the submodules when you checkout the source.
 
 ```bash
 git clone --recurse-submodules https://github.com/marc-cr1810/cpp-tree-sitter
-mkdir tree-sitter-cmake/build
-cd tree-sitter-cmake/build
+mkdir cpp-tree-sitter/build
+cpp-tree-sitter/build
 cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
 cmake --build .
 sudo cmake --build . --target install
