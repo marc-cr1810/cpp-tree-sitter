@@ -82,13 +82,7 @@ use the C++ wrappers then yields a `demo.cpp` like:
 #include <memory>
 #include <string>
 
-#include <cpp-tree-sitter.h>
-
-
-extern "C" {
-TSLanguage* tree_sitter_json();
-}
-
+#include <tree_sitter/cpp-tree-sitter.hpp>
 
 int main() {
   // Create a language and parser.
