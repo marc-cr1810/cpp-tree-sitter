@@ -40,7 +40,13 @@ function(add_language lang)
   else()
     set(src_dir "${ARGN}")
   endif()
-  add_library(Tree-Sitter-${lang} STATIC "${CMAKE_CURRENT_BINARY_DIR}/${src_dir}/src/parser.c")
+  file(GLOB LANG_SOURCES 
+    ${CMAKE_CURRENT_BINARY_DIR}/${src_dir}/src/parser.c 
+    ${CMAKE_CURRENT_BINARY_DIR}/${src_dir}/src/scanner.c 
+    ${CMAKE_CURRENT_BINARY_DIR}/${src_dir}/src/scanner.cc)
+  add_library(Tree-Sitter-${lang} STATIC 
+    ${LANG_SOURCES}
+  )
   # Make aliases the same as exported lib names. Useful when embedding.
   add_library(Tree-Sitter::Tree-Sitter-${lang} ALIAS Tree-Sitter-${lang})
   target_include_directories(Tree-Sitter-${lang}
