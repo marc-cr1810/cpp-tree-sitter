@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 include(CMakePackageConfigHelpers)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 set(CMAKE_BUILD_TYPE_INIT "Release")
@@ -51,16 +51,17 @@ function(add_language lang)
   )
 endfunction()
 
-checkout(tree-sitter v0.20.1)
-checkout(tree-sitter-c v0.20.1)
-checkout(tree-sitter-c-sharp v0.19.1)
-checkout(tree-sitter-cpp v0.20.0)
-checkout(tree-sitter-go rust-0.19.1)
-checkout(tree-sitter-java v0.19.1)
-checkout(tree-sitter-javascript rust-0.20.0)
-checkout(tree-sitter-python rust-0.19.1)
-checkout(tree-sitter-rust v0.20.0)
-checkout(tree-sitter-typescript rust-0.20.0)
+checkout(tree-sitter v0.22.1)
+checkout(tree-sitter-c v0.20.7)
+checkout(tree-sitter-c-sharp v0.20.0)
+checkout(tree-sitter-cpp v0.20.5)
+checkout(tree-sitter-go v0.20.0)
+checkout(tree-sitter-java v0.20.2)
+checkout(tree-sitter-javascript v0.20.4)
+checkout(tree-sitter-json v0.20.2)
+checkout(tree-sitter-python v0.21.0)
+checkout(tree-sitter-rust v0.20.4)
+checkout(tree-sitter-typescript v0.20.6)
 
 add_language(C)
 add_language(C-Sharp)
@@ -68,6 +69,7 @@ add_language(CPP)
 add_language(Go)
 add_language(Java)
 add_language(JavaScript)
+add_language(Json)
 add_language(Python)
 add_language(Rust)
 add_language(TypeScript tree-sitter-typescript/typescript)
@@ -95,8 +97,9 @@ if(NOT SUBPROJECT)
 
   install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/tree-sitter/lib/include/tree_sitter/api.h
-    ${CMAKE_CURRENT_BINARY_DIR}/tree-sitter/lib/include/tree_sitter/parser.h
-    include/tree_sitter/langs.h
+    ${CMAKE_CURRENT_BINARY_DIR}/tree-sitter/lib/src/parser.h
+    include/tree_sitter/langs.hpp
+    include/tree_sitter/cpp-tree-sitter.hpp
     DESTINATION include/tree_sitter
   )
 
@@ -108,7 +111,7 @@ if(NOT SUBPROJECT)
     FILE Tree-Sitter-targets.cmake
   )
 
-  foreach(lang C C-Sharp CPP Go Java JavaScript Python Rust TypeScript TSX)
+  foreach(lang C C-Sharp CPP Go Java JavaScript Json Python Rust TypeScript TSX)
     install(TARGETS Tree-Sitter-${lang} EXPORT ${lang} DESTINATION lib)
     install(EXPORT ${lang}
       DESTINATION ${CMAKE_INSTALL_DIR}
